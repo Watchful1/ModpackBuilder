@@ -1,5 +1,7 @@
 package gr.watchful.packbuilder;
 
+import gr.watchful.packbuilder.settings.Constants;
+import gr.watchful.packbuilder.utils.LogFormatter;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -19,13 +21,27 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * Main class and primary gui stage
  */
 public class Packbuilder extends Application {
     public static void main(String[] args) {
+        Handler[] handlers = Logger.getLogger("").getHandlers();
+        if (handlers[0] instanceof ConsoleHandler) {
+            handlers[0].setFormatter(new LogFormatter());
+        }
+
+        logger.setLevel(Constants.logLevel);
+
         launch(args);
     }
+
+    private static final Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
     @Override
     public void start(Stage primaryStage) {
@@ -68,6 +84,7 @@ public class Packbuilder extends Application {
         btn.setOnAction(e -> {
             actiontarget.setFill(Color.FIREBRICK);
             actiontarget.setText("Sign in button pressed");
+            logger.info("Sign in button pressed");
         });
 
         primaryStage.show();
