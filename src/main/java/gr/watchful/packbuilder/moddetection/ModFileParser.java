@@ -1,6 +1,6 @@
 package gr.watchful.packbuilder.moddetection;
 
-import gr.watchful.packbuilder.datastructures.ModFile;
+import gr.watchful.packbuilder.datastructures.modrelated.ModFile;
 import gr.watchful.packbuilder.utils.FileUtils;
 
 import org.json.JSONArray;

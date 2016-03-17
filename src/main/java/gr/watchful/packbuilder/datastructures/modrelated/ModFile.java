@@ -1,4 +1,4 @@
-package gr.watchful.packbuilder.datastructures;
+package gr.watchful.packbuilder.datastructures.modrelated;
 
 import java.io.File;
 import java.util.ArrayList;
