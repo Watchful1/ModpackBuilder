@@ -1,10 +1,14 @@
 package gr.watchful.packbuilder.moddetection;
 
 import gr.watchful.packbuilder.datastructures.global.Preferences;
+import gr.watchful.packbuilder.datastructures.modrelated.DataSource;
+import gr.watchful.packbuilder.datastructures.modrelated.Mod;
 import gr.watchful.packbuilder.datastructures.modrelated.ModInfo;
+import gr.watchful.packbuilder.datastructures.modrelated.SimpleModInfo;
 import gr.watchful.packbuilder.settings.Constants;
 import gr.watchful.packbuilder.utils.FileUtils;
 import gr.watchful.packbuilder.utils.LogUtils;
+import gr.watchful.packbuilder.utils.StringUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -12,15 +16,21 @@ import org.json.simple.parser.ParseException;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.logging.Logger;
 
 public class ModLibrary {
 	private static final Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	private static ArrayList<ModInfo> modInfos;
+	private static HashMap<String, ModInfo> modIds;
+	private static HashMap<String, ModInfo> modNames;
 
 	public static void init() {
 		modInfos = new ArrayList<>();
+		modIds = new HashMap<>();
+		modNames = new HashMap<>();
 
 		initFTBSite();
 	}
@@ -53,20 +63,59 @@ public class ModLibrary {
 		String jsonString = FileUtils.readFileToString(json);
 		if (jsonString == null) return false;
 
+		logger.info("Parsing FTB json");
+
 		JSONParser parser = new JSONParser();
+		int i = 0;
 		try {
 			JSONArray array = (JSONArray) parser.parse(jsonString);
 
 			for (Object modObject : array) {
 				JSONObject jsonObject = (JSONObject) modObject;
-				logger.info((String) jsonObject.get("modName"));
+				SimpleModInfo tempInfo = new SimpleModInfo(DataSource.FTBSITE);
 
+				tempInfo.setName((String) jsonObject.get("modName"));
+				tempInfo.setAuthor((String) jsonObject.get("modAuthors"));
+				tempInfo.setModid((String) jsonObject.get("modids"));
+				tempInfo.setUrl((String) jsonObject.get("modLink"));
+
+				saveModInfo(tempInfo);
+
+				i++;
 			}
 		} catch (ParseException e) {
 			LogUtils.logException("Failed to parse FTB json", e);
 			return false;
+		} finally {
+			logger.info("Parsed mods from FTB json: "+i);
 		}
 
 		return true;
+	}
+
+	private static void saveModInfo(SimpleModInfo simpleModInfo) {
+		findModInfo(simpleModInfo);
+	}
+
+	private static ArrayList<ModInfo> findModInfo(SimpleModInfo simpleModInfo) {
+		HashSet<ModInfo> infos = new HashSet<>();
+		if (simpleModInfo.modid.size() > 0) {
+			for (String modid : simpleModInfo.modid) {
+				ModInfo tempInfo = modIds.get(modid.toLowerCase());
+				if (tempInfo != null) infos.add(tempInfo);
+			}
+		}
+		if (simpleModInfo.name != null && !simpleModInfo.name.equals("")) {
+			ModInfo tempInfo = modNames.get(StringUtils.compressString(simpleModInfo.name));
+			if (tempInfo != null) infos.add(tempInfo);
+		}
+
+
+
+		return null;
+	}
+
+	private static void insertModInfo(SimpleModInfo simpleModInfo) {
+
 	}
 }
