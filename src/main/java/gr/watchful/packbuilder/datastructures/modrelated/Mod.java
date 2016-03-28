@@ -6,11 +6,11 @@ package gr.watchful.packbuilder.datastructures.modrelated;
  * Points to a ModInfo with general details about the mod
  */
 public class Mod {
-    private ModInfo modInfo;
-    private String fileName;
-    private String version;
-    private ModpackVersion parentModpackVersion;
-        // not entirely sure this is the right way to implement this, but I really don't want to
-        // pass it around everywhere
-    private String source; // defaults to the modInfo, version source if not present
+	private ModInfo modInfo;
+	private String fileName;
+	private String version;
+	private ModpackVersion parentModpackVersion;
+		// not entirely sure this is the right way to implement this, but I really don't want to
+		// pass it around everywhere
+	private String source; // defaults to the modInfo, version source if not present
 }

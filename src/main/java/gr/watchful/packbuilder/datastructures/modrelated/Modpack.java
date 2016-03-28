@@ -7,6 +7,6 @@ import java.util.ArrayList;
  * Contains a list of ModpackVersions
  */
 public class Modpack {
-    private ArrayList<ModpackVersion> versions;
+	private ArrayList<ModpackVersion> versions;
 
 }

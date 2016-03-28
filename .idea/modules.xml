@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Packbuilder.iml" filepath="$PROJECT_DIR$/Packbuilder.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/packbuilder.iml" filepath="$PROJECT_DIR$/.idea/modules/packbuilder.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/packbuilder_main.iml" filepath="$PROJECT_DIR$/.idea/modules/packbuilder_main.iml" group="packbuilder" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/packbuilder_test.iml" filepath="$PROJECT_DIR$/.idea/modules/packbuilder_test.iml" group="packbuilder" />
     </modules>
   </component>
 </project>

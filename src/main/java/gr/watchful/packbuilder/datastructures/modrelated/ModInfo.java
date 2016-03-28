@@ -6,13 +6,13 @@ import java.util.ArrayList;
  * A set of general details about a mod
  */
 public class ModInfo {
-    private StringDataElement name;
-    private StringDataElement author;
-    private StringDataElement modid;
-    private StringDataElement url;
+	private StringDataElement name;
+	private StringDataElement author;
+	private StringDataElement modid;
+	private StringDataElement url;
 
 
 
 
-    private ArrayList<ModVersion> versions;
+	private ArrayList<ModVersion> versions;
 }

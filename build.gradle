@@ -12,6 +12,8 @@ dependencies {
     compile 'org.json:json:20090211'
     compile 'org.ow2.asm:asm:5.0.2'
     compile 'com.google.code.gson:gson:2.2.4'
+    compile 'commons-io:commons-io:2.4'
+    compile 'com.googlecode.json-simple:json-simple:1.1.1'
 }
 
 jar {

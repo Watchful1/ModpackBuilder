@@ -7,14 +7,14 @@ import java.util.logging.LogRecord;
 
 public class LogFormatter extends Formatter {
 
-    @Override
-    public String format(LogRecord record) {
-        StringBuilder bldr = new StringBuilder();
-        bldr.append(new SimpleDateFormat("[MM/dd hh:mm:ss] ").format(new Date(record.getMillis())));
-        bldr.append(record.getLevel());
-        bldr.append(": ");
-        bldr.append(record.getMessage());
-        bldr.append("\n");
-        return bldr.toString();
-    }
+	@Override
+	public String format(LogRecord record) {
+		StringBuilder bldr = new StringBuilder();
+		bldr.append(new SimpleDateFormat("[MM/dd hh:mm:ss] ").format(new Date(record.getMillis())));
+		bldr.append(record.getLevel());
+		bldr.append(": ");
+		bldr.append(record.getMessage());
+		bldr.append("\n");
+		return bldr.toString();
+	}
 }
