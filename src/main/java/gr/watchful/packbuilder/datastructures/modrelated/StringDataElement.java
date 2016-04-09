@@ -1,13 +1,13 @@
 package gr.watchful.packbuilder.datastructures.modrelated;
 
-import com.sun.org.apache.xpath.internal.operations.String;
-
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  * A mod info element to keep track of source and update time for a string
  */
 public class StringDataElement {
+	private HashSet<String> values;
+
 	private ArrayList<String> unknownValue;
 	private ArrayList<String> localHardValue;
 	private ArrayList<String> ftbSiteValue;
@@ -16,6 +16,8 @@ public class StringDataElement {
 	private ArrayList<String> localUserValue;
 
 	public StringDataElement() {
+		values = new HashSet<>();
+
 		unknownValue = new ArrayList<>();
 		localHardValue = new ArrayList<>();
 		ftbSiteValue = new ArrayList<>();
@@ -25,6 +27,7 @@ public class StringDataElement {
 	}
 
 	public void addValue(String value, DataSource source) {
+		if (value == null || value.equals("")) return;
 		switch (source) {
 			case LOCALHARD:
 				checkAdd(localHardValue, value);
@@ -90,6 +93,40 @@ public class StringDataElement {
 			if (!master.contains(str)) {
 				master.add(str);
 			}
+		}
+	}
+
+	private class StringSources {
+		private String str;
+		private EnumSet<DataSource> sources;
+
+		public StringSources(String str, DataSource source) {
+			this.str = str;
+			sources = EnumSet.of(source);
+		}
+
+		public String getStr() {
+			return str;
+		}
+
+		public void addSource(DataSource source) {
+			sources.add(source);
+		}
+
+		public boolean containsSource(DataSource source) {
+			return sources.contains(source);
+		}
+
+		@Override
+		public int hashCode() {
+			return str.hashCode();
+		}
+
+		@Override
+		public boolean equals(Object o) {
+			if (!(o instanceof StringSources)) return false;
+			if (o == this) return true;
+			return str.equals(((StringSources) o).getStr());
 		}
 	}
 }

@@ -26,11 +26,13 @@ public class ModLibrary {
 	private static ArrayList<ModInfo> modInfos;
 	private static HashMap<String, ModInfo> modIds;
 	private static HashMap<String, ModInfo> modNames;
+	private static HashMap<String, ArrayList<ModInfo>> modAuthors;
 
 	public static void init() {
 		modInfos = new ArrayList<>();
 		modIds = new HashMap<>();
 		modNames = new HashMap<>();
+		modAuthors = new HashMap<>();
 
 		initFTBSite();
 	}
@@ -79,7 +81,7 @@ public class ModLibrary {
 				tempInfo.setModid((String) jsonObject.get("modids"));
 				tempInfo.setUrl((String) jsonObject.get("modLink"));
 
-				saveModInfo(tempInfo);
+				saveModInfo(tempInfo, DataSource.FTBSITE);
 
 				i++;
 			}
@@ -93,11 +95,22 @@ public class ModLibrary {
 		return true;
 	}
 
-	private static void saveModInfo(SimpleModInfo simpleModInfo) {
-		findModInfo(simpleModInfo);
+	private static void saveModInfo(SimpleModInfo simpleModInfo, DataSource source) {
+		ArrayList<ModInfo> tempInfos = findModInfo(simpleModInfo);
+		if (tempInfos.size() > 0) {
+			logger.info(simpleModInfo.name + " : " + tempInfos.size());
+			logger.info("        " + simpleModInfo.name + " : " + simpleModInfo.author.toString() + " : " + simpleModInfo.url + " : " + simpleModInfo.modid);
+			logger.info("        " + tempInfos.get(0).name.getSpecificValues(DataSource.FTBSITE) + " : " + tempInfos.get(0).author.getSpecificValues(DataSource.FTBSITE)
+					+ " : " + tempInfos.get(0).url.getSpecificValues(DataSource.FTBSITE) + " : " + tempInfos.get(0).modid.getSpecificValues(DataSource.FTBSITE));
+		}
+		insertModInfo(simpleModInfo, source);
 	}
 
 	private static ArrayList<ModInfo> findModInfo(SimpleModInfo simpleModInfo) {
+		return findModInfo(simpleModInfo, false);
+	}
+
+	private static ArrayList<ModInfo> findModInfo(SimpleModInfo simpleModInfo, boolean thorough) {
 		HashSet<ModInfo> infos = new HashSet<>();
 		if (simpleModInfo.modid.size() > 0) {
 			for (String modid : simpleModInfo.modid) {
@@ -109,13 +122,27 @@ public class ModLibrary {
 			ModInfo tempInfo = modNames.get(StringUtils.compressString(simpleModInfo.name));
 			if (tempInfo != null) infos.add(tempInfo);
 		}
+		if (thorough) {
+			if (simpleModInfo.author.size() > 0) {
+				for (String author : simpleModInfo.author) {
+					ArrayList<ModInfo> tempInfo = modAuthors.get(author);
+					if (tempInfo != null) infos.addAll(tempInfo);
+				}
+			}
+		}
 
-
-
-		return null;
+		return new ArrayList<>(infos);
 	}
 
-	private static void insertModInfo(SimpleModInfo simpleModInfo) {
-
+	private static void insertModInfo(SimpleModInfo simpleModInfo, DataSource source) {
+		ModInfo tempInfo = new ModInfo(simpleModInfo, source);
+		modInfos.add(tempInfo);
+		modNames.put(StringUtils.compressString(simpleModInfo.name), tempInfo);
+		for (String modId : simpleModInfo.modid) {
+			modIds.put(modId, tempInfo);
+		}
+		for (String author : simpleModInfo.author) {
+			modIds.put(author, tempInfo);
+		}
 	}
 }
