@@ -22,16 +22,20 @@ public class StringDataElement {
 		} else {
 			temp.add(source);
 		}
-		addSource(value, source);
-	}
-
-	private void addSource(String value, DataSource source) {
 		if (sources.containsKey(source)) {
 			sources.get(source).add(value);
 		} else {
-			HashSet<String> temp = new HashSet<>();
-			temp.add(value);
-			sources.put(source, temp);
+			HashSet<String> temp2 = new HashSet<>();
+			temp2.add(value);
+			sources.put(source, temp2);
 		}
+	}
+
+	public HashSet<String> getSourceValues(DataSource source) {
+		return sources.get(source);
+	}
+
+	public HashSet<String> getBestValues() {
+		return null;
 	}
 }

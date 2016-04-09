@@ -100,8 +100,8 @@ public class ModLibrary {
 		if (tempInfos.size() > 0) {
 			logger.info(simpleModInfo.name + " : " + tempInfos.size());
 			logger.info("        " + simpleModInfo.name + " : " + simpleModInfo.author.toString() + " : " + simpleModInfo.url + " : " + simpleModInfo.modid);
-			logger.info("        " + tempInfos.get(0).name.getSpecificValues(DataSource.FTBSITE) + " : " + tempInfos.get(0).author.getSpecificValues(DataSource.FTBSITE)
-					+ " : " + tempInfos.get(0).url.getSpecificValues(DataSource.FTBSITE) + " : " + tempInfos.get(0).modid.getSpecificValues(DataSource.FTBSITE));
+			logger.info("        " + tempInfos.get(0).name.getSourceValues(DataSource.FTBSITE) + " : " + tempInfos.get(0).author.getSourceValues(DataSource.FTBSITE)
+					+ " : " + tempInfos.get(0).url.getSourceValues(DataSource.FTBSITE) + " : " + tempInfos.get(0).modid.getSourceValues(DataSource.FTBSITE));
 		}
 		insertModInfo(simpleModInfo, source);
 	}
